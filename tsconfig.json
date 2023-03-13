@@ -8,6 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "lib": ["ES2015", "DOM"],
+    "moduleResolution": "node",
     "noEmitOnError": true
   },
   "include": ["./**/*.ts", ".eslintrc.js"],
