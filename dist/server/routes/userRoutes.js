@@ -1,5 +1,10 @@
-import express from "express";
-import { loginUser } from "../controllers/usersController";
-const router = express.Router();
-router.post("/login", loginUser);
-export default router;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const usersController_1 = require("../controllers/usersController");
+const router = express_1.default.Router();
+router.post("/login", usersController_1.loginUser);
+exports.default = router;
