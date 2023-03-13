@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import chalk from "chalk";
 import Debug from "debug";
+import userRoutes from "./routes/userRoutes";
 
 const debug = Debug("app:server");
 
@@ -32,5 +33,7 @@ const initilizeServer = (port: number) =>
 
 app.use(morgan("dev"));
 app.use(express.json());
+
+app.use("/users", userRoutes);
 
 export { initilizeServer, app };
