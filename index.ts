@@ -8,8 +8,6 @@ import connectDB from "./database/index";
 const port: string | number =
   process.env.PORT ?? process.env.SERVER_PORT ?? 6001;
 
-window.exports = {};
-
 (async () => {
   try {
     await connectDB(process.env.MONGODB_STRING as string);
