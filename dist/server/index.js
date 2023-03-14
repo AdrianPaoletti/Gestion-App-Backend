@@ -14,6 +14,7 @@ const debug = (0, debug_1.default)("app:server");
 const app = (0, express_1.default)();
 exports.app = app;
 app.use((0, cors_1.default)());
+console.log("hello");
 const initilizeServer = (port) => new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
         debug(chalk_1.default.green(`Listening on port ${port}`));

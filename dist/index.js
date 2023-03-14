@@ -8,7 +8,6 @@ dotenv_1.default.config();
 const index_1 = require("./server/index");
 const index_2 = __importDefault(require("./database/index"));
 const port = process.env.PORT ?? process.env.SERVER_PORT ?? 6001;
-window.exports = {};
 (async () => {
     try {
         await (0, index_2.default)(process.env.MONGODB_STRING);
