@@ -10,6 +10,7 @@ const debug = Debug("app:server");
 const app = express();
 
 app.use(cors());
+console.log("hello");
 
 const initilizeServer = (port: number) =>
   new Promise((resolve, reject) => {
