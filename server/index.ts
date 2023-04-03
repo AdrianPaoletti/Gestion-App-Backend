@@ -4,6 +4,7 @@ import cors from "cors";
 import chalk from "chalk";
 import Debug from "debug";
 import userRoutes from "./routes/userRoutes";
+import blockedDaysRoutes from "./routes/blockedDaysRoutes";
 
 const debug = Debug("app:server");
 
@@ -35,5 +36,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/users", userRoutes);
+app.use("/days", blockedDaysRoutes);
 
 export { initilizeServer, app };
