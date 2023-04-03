@@ -12,8 +12,8 @@ const getBlockedDays = async (
     const [total, blockedDays] = await Promise.all([
       BlockedDay.countDocuments(),
       BlockedDay.find({ endDate: { $gt: new Date() } })
-        .limit(limit as number)
-        .skip(0),
+        .limit(+limit as number)
+        .skip(+limit * (+page - 1)),
     ]);
     if (!blockedDays) {
       const error = new ErrorCode("Could not find blockedDays");
