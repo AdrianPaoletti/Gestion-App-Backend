@@ -12,6 +12,7 @@ const getBlockedDays = async (
     const [total, blockedDays] = await Promise.all([
       BlockedDay.countDocuments(),
       BlockedDay.find({ endDate: { $gt: new Date() } })
+        .sort({ endDate: "ascending" })
         .limit(+limit as number)
         .skip(+limit * (+page - 1)),
     ]);
