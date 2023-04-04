@@ -9,9 +9,15 @@ const getBlockedDays = async (
 ) => {
   try {
     const { limit = 10, page = 1 } = req.query;
+    const actualDate = new Date();
+    const query = {
+      endDate: {
+        $gt: new Date(actualDate.setDate(actualDate.getDate() - 1)),
+      },
+    };
     const [total, blockedDays] = await Promise.all([
-      BlockedDay.countDocuments(),
-      BlockedDay.find({ endDate: { $gt: new Date() } })
+      BlockedDay.countDocuments(query),
+      BlockedDay.find(query)
         .sort({ endDate: "ascending" })
         .limit(+limit as number)
         .skip(+limit * (+page - 1)),
@@ -22,6 +28,42 @@ const getBlockedDays = async (
       return;
     }
     res.status(200).json({ total, blockedDays });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getBlockedDaysMonthly = async (
+  req: express.Request,
+  res: express.Response,
+  next: any
+) => {
+  try {
+    const { month = new Date().getMonth(), year = new Date().getFullYear() } =
+      req.query;
+    const actualDate = new Date();
+    const actualDateCondition =
+      +month === new Date().getMonth() && +year === new Date().getFullYear();
+
+    const query = {
+      endDate: {
+        $gt: actualDateCondition
+          ? new Date(actualDate.setDate(actualDate.getDate() - 1))
+          : new Date(+year, +month, 1),
+        $lte: new Date(+year, +month + 1, 0),
+      },
+    };
+    const blockedDays = await BlockedDay.find(query).sort({
+      endDate: "ascending",
+    });
+
+    if (!blockedDays) {
+      const error = new ErrorCode("Could not find blockedDaysMonthly");
+      next(error);
+      return;
+    }
+
+    res.status(200).json(blockedDays);
   } catch (error) {
     next(error);
   }
@@ -59,8 +101,8 @@ const deleteBlockedDay = async (
 ) => {
   try {
     const { id } = req.params;
-    const blockedDaysDeleted = await BlockedDay.findOneAndDelete({ id });
-    console.log(blockedDaysDeleted);
+    const blockedDaysDeleted = await BlockedDay.findByIdAndDelete(id);
+    console.log(id, blockedDaysDeleted);
     if (!blockedDaysDeleted) {
       const error = new ErrorCode("Could not delete blockedDays");
       next(error);
@@ -74,4 +116,9 @@ const deleteBlockedDay = async (
   }
 };
 
-export { getBlockedDays, postBlockedDays, deleteBlockedDay };
+export {
+  getBlockedDays,
+  getBlockedDaysMonthly,
+  postBlockedDays,
+  deleteBlockedDay,
+};
