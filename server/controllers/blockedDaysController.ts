@@ -75,12 +75,13 @@ const postBlockedDays = async (
   next: any
 ) => {
   try {
-    const { hours, dates } = req.body;
+    const { hours, dates, observations } = req.body;
     const newBlockedDays = await BlockedDay.create({
       startDate: dates[0],
       endDate: dates[dates.length - 1],
       hours: hours,
       dates: dates,
+      observations
     });
     if (!newBlockedDays) {
       const error = new ErrorCode("Could not add blockedDays");

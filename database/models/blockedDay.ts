@@ -5,6 +5,7 @@ export interface IBlockedDay {
   endDate: Date;
   dates: Array<Date>;
   hours: Array<string>;
+  observations: string;
 }
 
 const blockedDaySchema: Schema<IBlockedDay> = new Schema({
@@ -24,6 +25,10 @@ const blockedDaySchema: Schema<IBlockedDay> = new Schema({
     type: [String],
     required: false,
   },
+  observations: {
+    type: String,
+    required: false,
+  }
 });
 
 const BlockedDay = model("BlockedDay", blockedDaySchema, "BlockedDays");
