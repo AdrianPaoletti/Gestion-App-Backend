@@ -17,6 +17,7 @@ const loginUser = async (
   try {
     const user = await User.findOne({ username });
     console.log("user", user);
+
     if (!user) {
       const error = new ErrorCode("Incorrect username");
       error.code = 401;
