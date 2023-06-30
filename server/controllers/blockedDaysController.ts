@@ -44,19 +44,19 @@ const getBlockedDaysMonthly = async (
     const actualDate = new Date();
     const actualDateCondition =
       +month === new Date().getMonth() && +year === new Date().getFullYear();
-
+    const isLastDayMonth = new Date(+year, +month + 1, 0).getDate() === new Date().getDate();
+    const monthToSearch = isLastDayMonth ? +month + 1 : +month; 
     const query = {
       endDate: {
-        $gt: actualDateCondition
+        $gt: actualDateCondition && !isLastDayMonth 
           ? new Date(actualDate.setDate(actualDate.getDate() - 1))
-          : new Date(+year, +month, 1),
-        $lte: new Date(+year, +month + 1, 0),
+          : new Date(+year, monthToSearch, 1),
+        $lte: new Date(+year, monthToSearch + 1, 0),
       },
     };
     const blockedDays = await BlockedDay.find(query).sort({
       endDate: "ascending",
     });
-
     if (!blockedDays) {
       const error = new ErrorCode("Could not find blockedDaysMonthly");
       next(error);
