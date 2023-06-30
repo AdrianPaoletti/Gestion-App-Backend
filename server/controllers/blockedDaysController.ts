@@ -44,8 +44,10 @@ const getBlockedDaysMonthly = async (
     const actualDate = new Date();
     const actualDateCondition =
       +month === new Date().getMonth() && +year === new Date().getFullYear();
-    const isLastDayMonth = new Date(+year, +month + 1, 0).getDate() === new Date().getDate();
-    const monthToSearch = isLastDayMonth && actualDateCondition ? +month + 1 : +month; 
+    const isLastDayMonth =
+      new Date(+year, +month + 1, 0).getDate() === new Date().getDate();
+    const monthToSearch =
+      isLastDayMonth && actualDateCondition ? +month + 1 : +month;
     const query = {
       endDate: {
         $gt: actualDateCondition
@@ -62,7 +64,6 @@ const getBlockedDaysMonthly = async (
       next(error);
       return;
     }
-
     res.status(200).json(blockedDays);
   } catch (error) {
     next(error);
@@ -81,7 +82,7 @@ const postBlockedDays = async (
       endDate: dates[dates.length - 1],
       hours: hours,
       dates: dates,
-      observations
+      observations,
     });
     if (!newBlockedDays) {
       const error = new ErrorCode("Could not add blockedDays");
